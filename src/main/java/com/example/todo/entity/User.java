@@ -1,5 +1,6 @@
 package com.example.todo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 @Builder
 @Setter
 @Getter
+@ToString
 @Table(name="users")
 public class User implements Serializable {
 
@@ -31,8 +33,12 @@ public class User implements Serializable {
     private String password;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ToString.Exclude
     private Set<Authority> authority;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ToString.Exclude
     private Set<Note> notes;
 }

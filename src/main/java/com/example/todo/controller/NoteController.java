@@ -13,8 +13,12 @@ import java.util.List;
 @RequestMapping("/notes")
 public class NoteController {
 
+    private final NoteService noteService;
+
     @Autowired
-    private NoteService noteService;
+    public NoteController(NoteService noteService) {
+        this.noteService = noteService;
+    }
 
     @PostMapping
     public ResponseEntity<Void> addNote(@RequestBody Note note,
@@ -36,7 +40,7 @@ public class NoteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Note>> getAllNotesByUserId(@PathVariable Long id) {
+    public ResponseEntity<List<Note>> getAllNotesByUserId(@RequestParam Long id) {
         return new ResponseEntity<List<Note>>(noteService.getNotesByUserId(id), HttpStatus.OK);
     }
 

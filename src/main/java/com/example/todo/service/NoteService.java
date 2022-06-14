@@ -6,25 +6,34 @@ import com.example.todo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class NoteService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final NoteRepository noteRepository;
 
     @Autowired
-    NoteRepository noteRepository;
+    public NoteService(UserRepository userRepository, NoteRepository noteRepository) {
+        this.userRepository = userRepository;
+        this.noteRepository = noteRepository;
+    }
 
     public Note addNote(Note note, Long userId) {
-        note.setUser(userRepository.findById(userId).get());
-        note.setDone(false);
-        return noteRepository.save(note);
+        return noteRepository.save(Note
+                .builder()
+                .done(false)
+                .date(LocalDate.now())
+                .task(note.getTask())
+                .user(userRepository.findById(userId).orElseThrow())
+                .build());
     }
 
     public Note findById(Long id) {
-        return noteRepository.findById(id).get();
+        return noteRepository.findById(id).orElseThrow();
     }
 
     public List<Note> getNotesByUserId(Long id) {
@@ -50,7 +59,7 @@ public class NoteService {
         return noteRepository.save(note);
     }
 
-    public Note updateNote(Long id, Note note){
+    public Note updateNote(Long id, Note note) {
         Note update = noteRepository.findById(id).get();
         update.setTask(note.getTask());
         return noteRepository.save(update);

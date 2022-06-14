@@ -2,6 +2,7 @@ package com.example.todo.service;
 
 import com.example.todo.entity.User;
 import com.example.todo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -10,8 +11,9 @@ import java.util.List;
 @Service
 public class UserService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -40,7 +42,7 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow();
     }
 
     public User findByUsername(String username) {

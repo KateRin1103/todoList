@@ -1,5 +1,6 @@
 package com.example.todo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -7,7 +8,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @Setter
 @Getter
+@ToString
 @Table(name = "notes")
 public class Note implements Serializable {
 
@@ -29,6 +30,8 @@ public class Note implements Serializable {
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @ToString.Exclude
     private User user;
 
     @Column(name = "done")
