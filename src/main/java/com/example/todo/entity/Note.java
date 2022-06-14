@@ -6,6 +6,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -31,4 +33,7 @@ public class Note implements Serializable {
 
     @Column(name = "done")
     private Boolean done;
+
+    @Column(name="date")
+    private LocalDate date;
 }

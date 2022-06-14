@@ -14,7 +14,7 @@ public interface NoteRepository extends CrudRepository<Note,Long> {
 
     Optional<Note> findById(Long id);
 
-    List<Note> findByUser_IdOrderByDone(Long id);
+    List<Note> findByUser_IdOrderByDate(Long id);
 
     List<Note> findByUser_IdAndDoneIsFalse(Long id);
 

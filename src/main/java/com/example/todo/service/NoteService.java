@@ -28,7 +28,7 @@ public class NoteService {
     }
 
     public List<Note> getNotesByUserId(Long id) {
-        return noteRepository.findByUser_IdOrderByDone(id);
+        return noteRepository.findByUser_IdOrderByDate(id);
     }
 
     public List<Note> getDone(Long userId) {
