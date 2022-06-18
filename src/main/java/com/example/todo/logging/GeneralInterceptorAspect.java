@@ -20,7 +20,9 @@ public class GeneralInterceptorAspect {
     public Object before(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("Before method invoked::" + joinPoint.getSignature());
         Object object = joinPoint.proceed(joinPoint.getArgs());
-        log.info("After method " + joinPoint.getSignature().toShortString() + " invoked: " + object.toString());
+        if (object != null)
+            log.info("After method " + joinPoint.getSignature().toShortString() +
+                    " invoked: " + object.toString());
         return object;
     }
 }

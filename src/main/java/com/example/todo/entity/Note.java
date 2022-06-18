@@ -1,21 +1,28 @@
 package com.example.todo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.Column;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Setter
 @Getter
 @ToString
+@Entity
 @Table(name = "notes")
 public class Note implements Serializable {
 
@@ -28,15 +35,19 @@ public class Note implements Serializable {
     private String task;
 
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
-    @JsonIgnore
-    @ToString.Exclude
     private User user;
 
     @Column(name = "done")
     private Boolean done;
 
-    @Column(name="date")
+    @Column(name = "date")
     private LocalDate date;
+
+    public Note(String task, User user, Boolean done, LocalDate date) {
+        this.task = task;
+        this.user = user;
+        this.done = done;
+        this.date = date;
+    }
 }
