@@ -27,10 +27,11 @@ public class NoteServiceImpl implements NoteService {
         this.noteRepository = noteRepository;
     }
 
-    public Note save(Note note, Long userId) throws ValidationException {
+    public Note save(Note note, Long userId) throws ValidationException, NotFoundException {
         if (isNull(note.getTask())) throw new ValidationException("Task can't be null");
         return noteRepository.save(new Note(note.getTask(),
-                userRepository.findById(userId).get(),
+                userRepository.findById(userId)
+                        .orElseThrow(() -> new NotFoundException("Can't find user with id=" + userId)),
                 false,
                 LocalDate.now()));
     }

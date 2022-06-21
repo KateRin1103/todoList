@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.Builder;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -24,6 +25,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
 @ToString(exclude = {"notes", "authority"}) //в логировании использую
 @Table(name = "users")
 public class User implements Serializable {
