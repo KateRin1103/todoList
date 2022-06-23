@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.Builder;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @ToString
+@Builder
 @Entity
 @Table(name = "notes")
 public class Note implements Serializable {

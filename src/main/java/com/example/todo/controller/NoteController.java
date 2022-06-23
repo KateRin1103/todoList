@@ -34,7 +34,7 @@ public class NoteController {
 
     @PostMapping
     public ResponseEntity<Void> addNote(@RequestBody Note note,
-                                        @RequestParam Long userId) throws ValidationException {
+                                        @RequestParam Long userId) throws ValidationException, NotFoundException {
         noteService.save(note, userId);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
