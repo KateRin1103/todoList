@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
@@ -24,21 +23,27 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
-@ExtendWith(SpringExtension.class)
+@SqlGroup({
+        @Sql(scripts = "/schema.sql",
+                config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED),
+                executionPhase = BEFORE_TEST_METHOD),
+        @Sql("/data.sql"),
+        @Sql(scripts = "/schema-delete.sql",
+                executionPhase = AFTER_TEST_METHOD)})
 @ActiveProfiles("test")
-@SpringBootTest(classes = TodoAppApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.MethodName.class)
+@SpringBootTest(classes = TodoAppApplication.class,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ExtendWith(SpringExtension.class)
 class NoteRepositoryTest extends ContainersEnvironment {
 
     @Autowired
     NoteRepository noteRepository;
 
     @Test
-    @SqlGroup({
-            @Sql(scripts = "/schema.sql",
-                    config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED)),
-            @Sql("/data.sql")})
     void test1_findAll() {
         assertEquals(4, noteRepository.findAll().size());
     }

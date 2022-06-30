@@ -32,32 +32,33 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @PostMapping
-    public ResponseEntity<Void> addNote(@RequestBody Note note,
-                                        @RequestParam Long userId) throws ValidationException, NotFoundException {
-        noteService.save(note, userId);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    @PostMapping("/{userId}")
+    public ResponseEntity<NoteDTO> addNote(@RequestBody String note,
+                                        @PathVariable Long userId) throws ValidationException, NotFoundException {
+        Note newNote = Note.builder().task(note).build();
+        noteService.save(newNote, userId);
+        return new ResponseEntity<NoteDTO>(NoteMapper.INSTANCE.toDTO(newNote), HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Void> setDone(@RequestParam Long id) throws NotFoundException {
-        noteService.setDone(id);
+    @PutMapping("/{noteId}")
+    public ResponseEntity<Void> setDone(@PathVariable Long noteId) throws NotFoundException {
+        noteService.setDone(noteId);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNote(@PathVariable Long id) throws NotFoundException {
+    public ResponseEntity<Long> deleteNote(@PathVariable Long id) throws NotFoundException {
         noteService.deleteById(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Long>(id, HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping
-    public ResponseEntity<List<NoteDTO>> getAllNotesByUserId(@RequestParam Long id) throws NotFoundException {
+    @GetMapping("/{id}")
+    public ResponseEntity<List<NoteDTO>> getAllNotesByUserId(@PathVariable Long id) throws NotFoundException {
         return new ResponseEntity<List<NoteDTO>>(NoteMapper.INSTANCE.toDTO(noteService.getNotesByUserId(id)), HttpStatus.OK);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Void> updateNote(@RequestParam Long id,
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateNote(@PathVariable Long id,
                                            @RequestBody Note note) throws NotFoundException, ValidationException {
         noteService.update(id, note);
         return new ResponseEntity<Void>(HttpStatus.OK);

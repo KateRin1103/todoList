@@ -37,9 +37,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registration(@RequestBody User user) throws ValidationException {
+    public ResponseEntity<UserDTO> registration(@RequestBody User user) throws ValidationException {
         userService.save(user);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+        return new ResponseEntity<UserDTO>(UserMapper.INSTANCE.toDTO(user), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -48,15 +48,15 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws NotFoundException {
+    public ResponseEntity<Long> deleteUser(@PathVariable Long id) throws NotFoundException {
         userService.deleteById(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Long>(id, HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable Long id,
-                                           @RequestBody User user) throws NotFoundException, ValidationException {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id,
+                                              @RequestBody User user) throws NotFoundException, ValidationException {
         userService.update(id, user);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<UserDTO>(UserMapper.INSTANCE.toDTO(user), HttpStatus.OK);
     }
 }
