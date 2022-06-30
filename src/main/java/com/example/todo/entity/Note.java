@@ -26,7 +26,7 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "notes")
-public class Note implements Serializable {
+public class Note implements Serializable, Comparable<Note> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,5 +51,13 @@ public class Note implements Serializable {
         this.user = user;
         this.done = done;
         this.date = date;
+    }
+
+
+    @Override
+    public int compareTo(Note o) {
+        if (this.date.isBefore(o.getDate())) return -1;
+        else if (this.date.isAfter(o.getDate())) return 1;
+        else return 0;
     }
 }

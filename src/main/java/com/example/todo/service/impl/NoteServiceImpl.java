@@ -17,15 +17,11 @@ import static java.util.Objects.isNull;
 @Service
 public class NoteServiceImpl implements NoteService {
 
-    private final UserRepository userRepository;
-
-    private final NoteRepository noteRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public NoteServiceImpl(UserRepository userRepository, NoteRepository noteRepository) {
-        this.userRepository = userRepository;
-        this.noteRepository = noteRepository;
-    }
+    private NoteRepository noteRepository;
 
     public Note save(Note note, Long userId) throws ValidationException, NotFoundException {
         if (isNull(note.getTask())) throw new ValidationException("Task can't be null");
