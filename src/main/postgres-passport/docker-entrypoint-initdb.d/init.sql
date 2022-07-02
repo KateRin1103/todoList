@@ -1,3 +1,7 @@
+/*CREATE USER postgres_test_user WITH PASSWORD 'postgres';
+CREATE DATABASE postgres_db;
+GRANT ALL PRIVILEGES ON DATABASE postgres_db TO postgres_test_user;
+*/
 create table if not exists users
 (
     user_id  bigserial

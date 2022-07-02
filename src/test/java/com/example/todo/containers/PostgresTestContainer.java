@@ -4,9 +4,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 public class PostgresTestContainer extends PostgreSQLContainer<PostgresTestContainer> {
 
-    public static final String IMAGE_VERSION = "postgres:11.1";
+    public static final String IMAGE_VERSION = "postgres:latest";
 
-    public static final String DATABASE_NAME = "todo_db";
+    public static final String DATABASE_NAME = "postgres_db";
 
     public static PostgreSQLContainer container;
 

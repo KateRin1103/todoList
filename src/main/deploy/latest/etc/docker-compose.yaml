@@ -1,0 +1,11 @@
+version: '3.1'
+services:
+  postgres-passport:
+    image: my-postgres-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres_test_user
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres_db
