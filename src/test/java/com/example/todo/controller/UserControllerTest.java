@@ -122,18 +122,6 @@ class UserControllerTest {
         verify(userService).findById(anyLong());
     }
 
-    /*@Test
-    void getUser_notFound() throws Exception {
-
-        when(userController.getUser(anyLong())).thenThrow(new NotFoundException(""));
-
-        RequestBuilder request = MockMvcRequestBuilders.get("/users/" + null);
-
-        mockMvc.perform(request)
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }*/
-
     @Test
     void deleteUser() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders

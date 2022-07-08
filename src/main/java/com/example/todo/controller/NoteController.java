@@ -40,9 +40,9 @@ public class NoteController {
         return new ResponseEntity<NoteDTO>(NoteMapper.INSTANCE.toDTO(newNote), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{noteId}")
-    public ResponseEntity<Void> setDone(@PathVariable Long noteId) throws NotFoundException {
-        noteService.setDone(noteId);
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> setDone(@PathVariable Long id) throws NotFoundException {
+        noteService.setDone(id);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
@@ -57,7 +57,7 @@ public class NoteController {
         return new ResponseEntity<List<NoteDTO>>(NoteMapper.INSTANCE.toDTO(noteService.getNotesByUserId(id)), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Void> updateNote(@PathVariable Long id,
                                            @RequestBody Note note) throws NotFoundException, ValidationException {
         noteService.update(id, note);
