@@ -44,6 +44,11 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.3.5</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.playtika.testcontainers/embedded-postgresql -->
         <!--<dependency>
             <groupId>com.playtika.testcontainers</groupId>
