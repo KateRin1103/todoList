@@ -5,54 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <!--
-        <changeSet id="inserts-users" author="kr">
-            <insert tableName="users">
-                <column name="username" value="user4"/>
-                <column name="password" value="12345"/>
-                <column name="email" value="email4@com"/>
-            </insert>
-            <insert tableName="users">
-                <column name="username" value="sonya"/>
-                <column name="password" value="kate"/>
-                <column name="email" value="ksd@Mail.com"/>
-            </insert>
-            <insert tableName="users">
-                <column name="username" value="name"/>
-                <column name="password" value="12345"/>
-                <column name="email" value="mail"/>
-            </insert>
-        </changeSet>
-    -->
-    <!--
-        <changeSet id="inserts-notes" author="kr">
-            <insert tableName="notes">
-                <column name="date" value="2022-06-17"/>
-                <column name="done" value="false"/>
-                <column name="task" value="emm"/>
-                <column name="user_id" value="1"/>
-            </insert>
-            <insert tableName="notes">
-                <column name="date" value="2022-06-17"/>
-                <column name="done" value="true"/>
-                <column name="task" value="lll"/>
-                <column name="user_id" value="1"/>
-            </insert>
-            <insert tableName="notes">
-                <column name="date" value="2022-06-18"/>
-                <column name="done" value="false"/>
-                <column name="task" value="aaa"/>
-                <column name="user_id" value="1"/>
-            </insert>
-            <insert tableName="notes">
-                <column name="date" value="2022-06-19"/>
-                <column name="done" value="false"/>
-                <column name="task" value="kkk"/>
-                <column name="user_id" value="2"/>
-            </insert>
-        </changeSet>
-    -->
-
     <changeSet id="inserts" author="">
         <sql>INSERT INTO users (user_id, email, password, username)
              VALUES (1, 'email4@com', '12345', 'user4');</sql>
