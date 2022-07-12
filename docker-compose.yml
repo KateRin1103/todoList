@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  app:
+    container_name: todo
+    environment:
+      - DB_URL=${DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - .env
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8085:8085"
+  db:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - /tmp:/tmp
+    env_file:
+      - .env

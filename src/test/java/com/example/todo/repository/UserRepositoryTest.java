@@ -24,11 +24,11 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TES
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
 @SqlGroup({
-        @Sql(scripts = "/schema.sql",
+        @Sql(scripts = "/db/schema.sql",
                 config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED),
                 executionPhase = BEFORE_TEST_METHOD),
-        @Sql("/data.sql"),
-        @Sql(scripts = "/schema-delete.sql",
+        @Sql("/db/data.sql"),
+        @Sql(scripts = "/db/schema-delete.sql",
                 executionPhase = AFTER_TEST_METHOD)})
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.MethodName.class)
