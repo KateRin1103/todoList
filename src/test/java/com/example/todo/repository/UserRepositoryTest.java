@@ -32,8 +32,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
                 executionPhase = AFTER_TEST_METHOD)})
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.MethodName.class)
-@SpringBootTest(classes = TodoAppApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = TodoAppApplication.class)
 @ExtendWith(SpringExtension.class)
 public class UserRepositoryTest extends ContainersEnvironment {
 
