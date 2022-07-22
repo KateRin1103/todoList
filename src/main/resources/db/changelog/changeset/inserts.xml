@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="inserts" author="">
+        <sql>INSERT INTO users (user_id, email, password, username)
+             VALUES (1, 'email4@com', '12345', 'user4');</sql>
+        <sql>INSERT INTO users (user_id, email, password, username)
+             VALUES (2, 'ksd@Mail.com', 'kate', 'sonya');</sql>
+        <sql>INSERT INTO users (user_id, email, password, username)
+             VALUES (3, 'mail', '12345', 'name');
+        </sql>
+        <sql>INSERT INTO notes (note_id, date, done, task, user_id)
+             VALUES (1, '2022-06-17', false, 'emm', 1);
+        </sql>
+        <sql>INSERT INTO notes (note_id, date, done, task, user_id)
+             VALUES (2, '2022-06-17', true, 'lll', 1);
+        </sql>
+        <sql>INSERT INTO notes (note_id, date, done, task, user_id)
+             VALUES (3, '2022-06-18', false, 'aaa', 1);
+        </sql>
+        <sql>INSERT INTO notes (note_id, date, done, task, user_id)
+             VALUES (4, '2022-06-19', false, 'kkk', 2);</sql>
+    </changeSet>
+</databaseChangeLog>

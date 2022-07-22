@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
@@ -24,16 +26,17 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TES
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
 @SqlGroup({
-        @Sql(scripts = "/schema.sql",
+        @Sql(scripts = "/db/schema.sql",
                 config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED),
                 executionPhase = BEFORE_TEST_METHOD),
-        @Sql("/data.sql"),
-        @Sql(scripts = "/schema-delete.sql",
+        @Sql("/db/data.sql"),
+        @Sql(scripts = "/db/schema-delete.sql",
                 executionPhase = AFTER_TEST_METHOD)})
 @ActiveProfiles("test")
+/*@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)*/
 @TestMethodOrder(MethodOrderer.MethodName.class)
-@SpringBootTest(classes = TodoAppApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(value = "classpath:application-test.properties")
+@SpringBootTest(classes = TodoAppApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
 public class UserRepositoryTest extends ContainersEnvironment {
 

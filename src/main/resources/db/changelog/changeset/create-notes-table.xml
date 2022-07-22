@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create-note" author="kr">
+        <createTable tableName="notes">
+            <column name="note_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="task" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="date" defaultValueDate="now()"/>
+            <column name="done" type="boolean" defaultValueBoolean="false"/>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="user_id_fk"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="notes" baseColumnNames="user_id"
+                                 constraintName="user_id_fk" referencedTableName="users"
+                                 referencedColumnNames="user_id"/>
+    </changeSet>
+
+</databaseChangeLog>
