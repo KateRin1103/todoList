@@ -10,3 +10,6 @@ docker ps
 Check created database command in terminal:
 docker exec -it {postgres CONTAINER_ID} psql -U postgres todo_db
 \dt
+
+Start tests command:
+mvn clean test
