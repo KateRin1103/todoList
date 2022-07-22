@@ -1,3 +1,5 @@
+create role postgres with password 'katerin';
+
 create table if not exists users
 (
     user_id  bigserial
