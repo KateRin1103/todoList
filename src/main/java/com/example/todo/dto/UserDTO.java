@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode
-public class UserDTO {
+public class UserDTO{
+
     Long id;
 
     String username;

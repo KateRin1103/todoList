@@ -9,6 +9,9 @@ import com.example.todo.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +29,12 @@ public class UserController {
 
     private final UserServiceImpl userService;
 
+    private final KafkaTemplate<Long, User> kafkaTemplate;
+
     @Autowired
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserServiceImpl userService, KafkaTemplate<Long, User> kafkaTemplate) {
         this.userService = userService;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @GetMapping
@@ -39,6 +45,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDTO> registration(@RequestBody User user) throws ValidationException {
         userService.save(user);
+        sendKafkaMsg(user);
         return new ResponseEntity<UserDTO>(UserMapper.INSTANCE.toDTO(user), HttpStatus.CREATED);
     }
 
@@ -57,6 +64,13 @@ public class UserController {
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id,
                                               @RequestBody User user) throws NotFoundException, ValidationException {
         userService.update(id, user);
+        sendKafkaMsg(user);
         return new ResponseEntity<UserDTO>(UserMapper.INSTANCE.toDTO(user), HttpStatus.OK);
+    }
+
+    private void sendKafkaMsg(User user) {
+        ListenableFuture<SendResult<Long, User>> feature = kafkaTemplate.send("msg", 1L, user);
+        feature.addCallback(System.out::println, System.err::println);
+        kafkaTemplate.flush();
     }
 }
