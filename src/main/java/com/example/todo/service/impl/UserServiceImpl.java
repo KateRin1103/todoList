@@ -6,6 +6,7 @@ import com.example.todo.exception.ValidationException;
 import com.example.todo.repository.UserRepository;
 import com.example.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

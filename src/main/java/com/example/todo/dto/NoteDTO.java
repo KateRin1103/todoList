@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Id;
 import java.time.LocalDate;
 
 @AllArgsConstructor

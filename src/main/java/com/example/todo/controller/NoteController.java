@@ -2,6 +2,7 @@ package com.example.todo.controller;
 
 import com.example.todo.dto.NoteDTO;
 import com.example.todo.entity.Note;
+import com.example.todo.entity.User;
 import com.example.todo.exception.NotFoundException;
 import com.example.todo.exception.ValidationException;
 import com.example.todo.mappers.NoteMapper;
@@ -9,6 +10,9 @@ import com.example.todo.service.impl.NoteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,16 +31,20 @@ public class NoteController {
 
     private final NoteServiceImpl noteService;
 
+    private final KafkaTemplate<Long, Note> kafkaTemplate;
+
     @Autowired
-    public NoteController(NoteServiceImpl noteService) {
+    public NoteController(NoteServiceImpl noteService, KafkaTemplate<Long, Note> kafkaTemplate) {
         this.noteService = noteService;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @PostMapping("/{userId}")
     public ResponseEntity<NoteDTO> addNote(@RequestBody String note,
-                                        @PathVariable Long userId) throws ValidationException, NotFoundException {
+                                           @PathVariable Long userId) throws ValidationException, NotFoundException {
         Note newNote = Note.builder().task(note).build();
         noteService.save(newNote, userId);
+        sendKafkaMsg(newNote);
         return new ResponseEntity<NoteDTO>(NoteMapper.INSTANCE.toDTO(newNote), HttpStatus.CREATED);
     }
 
@@ -61,7 +69,14 @@ public class NoteController {
     public ResponseEntity<Void> updateNote(@PathVariable Long id,
                                            @RequestBody Note note) throws NotFoundException, ValidationException {
         noteService.update(id, note);
+        sendKafkaMsg(note);
         return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    private void sendKafkaMsg(Note note) {
+        ListenableFuture<SendResult<Long, Note>> feature = kafkaTemplate.send("msg", 1L, note);
+        feature.addCallback(System.out::println, System.err::println);
+        kafkaTemplate.flush();
     }
 
 }
